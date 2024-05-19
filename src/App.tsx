@@ -8,19 +8,23 @@ function App() {
   const [background, setBackground] = useState<string>("");
   const [fur, setFur] = useState<string>("");
   const [eyeColor, setEyeColor] = useState<string>("");
-  const [mouth, setMouth] = useState<string>("");
   const [eyewear, setEyewear] = useState<string>("");
+  const [clothing, setClothing] = useState<string>("");
+  const [mouth, setMouth] = useState<string>("");
+  const [hat, setHat] = useState<string>("");
   const [piercing, setPiercing] = useState<string>("");
   const sketchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const sketch = (p: p5) => {
-      let backgroundImg: p5.Image;
-      let furImg: p5.Image;
-      let eyeColorImg: p5.Image;
-      let mouthImg: p5.Image;
-      let eyewearImg: p5.Image;
-      let piercingImg: p5.Image;
+      let backgroundImg: p5.Image | null = null;
+      let furImg: p5.Image | null = null;
+      let eyeColorImg: p5.Image | null = null;
+      let eyewearImg: p5.Image | null = null;
+      let clothingImg: p5.Image | null = null;
+      let mouthImg: p5.Image | null = null;
+      let hatImg: p5.Image | null = null;
+      let piercingImg: p5.Image | null = null;
 
       p.preload = () => {
         if (background) {
@@ -35,12 +39,20 @@ function App() {
           eyeColorImg = p.loadImage(`/trait-layers/eye color/${eyeColor}`);
         }
 
+        if (eyewear) {
+          eyewearImg = p.loadImage(`/trait-layers/eyewear/${eyewear}`);
+        }
+
+        if (clothing) {
+          clothingImg = p.loadImage(`/trait-layers/clothing/${clothing}`);
+        }
+
         if (mouth) {
           mouthImg = p.loadImage(`/trait-layers/mouth/${mouth}`);
         }
 
-        if (eyewear) {
-          eyewearImg = p.loadImage(`/trait-layers/eyewear/${eyewear}`);
+        if (hat) {
+          hatImg = p.loadImage(`/trait-layers/hat/${hat}`);
         }
 
         if (piercing) {
@@ -69,12 +81,20 @@ function App() {
           p.image(eyeColorImg, 0, 0, p.width, p.height);
         }
 
+        if (eyewearImg) {
+          p.image(eyewearImg, 0, 0, p.width, p.height);
+        }
+
+        if (clothingImg) {
+          p.image(clothingImg, 0, 0, p.width, p.height);
+        }
+
         if (mouthImg) {
           p.image(mouthImg, 0, 0, p.width, p.height);
         }
 
-        if (eyewearImg) {
-          p.image(eyewearImg, 0, 0, p.width, p.height);
+        if (hatImg) {
+          p.image(hatImg, 0, 0, p.width, p.height);
         }
 
         if (piercingImg) {
@@ -89,7 +109,7 @@ function App() {
     return () => {
       purrP5.remove();
     };
-  }, [background, fur, eyeColor, mouth, eyewear, piercing]);
+  }, [background, fur, eyeColor, eyewear, clothing, mouth, hat, piercing]);
 
 
 
@@ -103,10 +123,10 @@ function App() {
       <header className='flex flex-row justify-evenly text-center mb-8'>
         <img id="headerPurr" className="rounded-xl" src='purr.png' alt='a pixelated tabby cat wearing a hoodie, smoking a vape, and observing the chaos' />
 
-<div id="headerText" className="flex flex-col align-center text-center">
-        <h1 className="self-center text-2xl font-bold">｡･ﾟﾟ･ mfpurr factory ･ﾟﾟ･｡</h1>
-        <h4 className="italic">by imp0ster</h4>
-</div>
+        <div id="headerText" className="flex flex-col align-center text-center">
+          <h1 className="self-center text-2xl font-bold">｡･ﾟﾟ･ mfpurr factory ･ﾟﾟ･｡</h1>
+          <h4 className="italic">by imp0ster</h4>
+        </div>
       </header>
 
       <main>
@@ -121,8 +141,8 @@ function App() {
             {/* background selection */}
             <div id="backgroundSelect" className="py-2">
               <label>background:</label>
-              <select className="p-2 rounded-xl border-2 border-purrOrange bg-purrGreen block" onChange={e => setBackground(e.target.value)} value={background}>
-                <option className="bg-purrGreen" value="">none</option>
+              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setBackground(e.target.value)} value={background}>
+                <option value="">none</option>
                 <option value="blue.png">blue</option>
                 <option value="green.png">green</option>
                 <option value="matrix.png">matrix</option>
@@ -139,8 +159,8 @@ function App() {
             {/* fur selection */}
             <div id="furSelect" className="py-2">
               <label>fur:</label>
-              <select className="p-2 rounded-xl border-2 border-purrOrange bg-purrGreen block" onChange={e => setFur(e.target.value)} value={fur}>
-                <option className="bg-purrGreen" value="">none</option>
+              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setFur(e.target.value)} value={fur}>
+                <option value="">none</option>
                 <option value="black.png">black</option>
                 <option value="cheshire.png">cheshire</option>
                 <option value="cool blue.png">cool blue</option>
@@ -155,8 +175,8 @@ function App() {
             {/* eye color selection */}
             <div id="eyeColorSelect" className="py-2">
               <label>eye color:</label>
-              <select className="p-2 rounded-xl border-2 border-purrOrange bg-purrGreen block" onChange={e => setEyeColor(e.target.value)} value={eyeColor}>
-                <option className="bg-purrGreen" value="">none</option>
+              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setEyeColor(e.target.value)} value={eyeColor}>
+                <option value="">none</option>
                 <option value="bloodshot.png">bloodshot</option>
                 <option value="blue.png">blue</option>
                 <option value="green.png">green</option>
@@ -166,11 +186,30 @@ function App() {
               </select>
             </div>
 
+            {/* clothing selection */}
+            <div id="clothingSelect" className="py-2">
+              <label>clothing:</label>
+              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setClothing(e.target.value)} value={clothing}>
+                <option value="">none</option>
+                <option value="black hoodie.png">black hoodie</option>
+                <option value="blue tee.png">blue tee</option>
+                <option value="blue tracksuit.png">blue tracksuit</option>
+                <option value="bomber.png">bomber</option>
+                <option value="fashion hoodie.png">fashion hoodie</option>
+                <option value="gold chain.png">gold chain</option>
+                <option value="hacker.png">hacker</option>
+                <option value="hawaiian shirt.png">hawaiian shirt</option>
+                <option value="office shirt.png">office shirt</option>
+                <option value="red tee.png">red tee</option>
+                <option value="red tracksuit.png">red tracksuit</option>
+              </select>
+            </div>
+
             {/* mouth selection */}
             <div id="mouthSelect" className="py-2">
               <label>mouth:</label>
-              <select className="p-2 rounded-xl border-2 border-purrOrange bg-purrGreen block" onChange={e => setMouth(e.target.value)} value={mouth}>
-                <option className="bg-purrGreen" value="">none</option>
+              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setMouth(e.target.value)} value={mouth}>
+                <option value="">none</option>
                 <option value="bored.png">bored</option>
                 <option value="bubble gum.png">bubble gum</option>
                 <option value="cig.png">cig</option>
@@ -182,11 +221,12 @@ function App() {
               </select>
             </div>
 
+
             {/* eyewear selection */}
             <div id="eyewearSelect" className="py-2">
               <label>eyewear:</label>
-              <select className="p-2 rounded-xl border-2 border-purrOrange bg-purrGreen block" onChange={e => setEyewear(e.target.value)} value={eyewear}>
-                <option className="bg-purrGreen" value="">none</option>
+              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setEyewear(e.target.value)} value={eyewear}>
+                <option value="">none</option>
                 <option value="aviators.png">aviators</option>
                 <option value="bitcoin maxi.png">bitcoin matrix</option>
                 <option value="blue noggles.png">blue noggles</option>
@@ -200,18 +240,44 @@ function App() {
               </select>
             </div>
 
+            {/* hatselection */}
+            <div id="hatSelect" className="py-2">
+              <label>hat:</label>
+              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setHat(e.target.value)} value={hat}>
+                <option value="">none</option>
+                <option value="420 bucket hat.png">420 bucket hat</option>
+                <option value="black beanie.png">black beanie</option>
+                <option value="black headphones.png">black headphones</option>
+                <option value="cowboy hat.png">cowboy hat</option>
+                <option value="durag.png">durag</option>
+                <option value="fedora.png">fedora</option>
+                <option value="fitted cap.png">fitted cap</option>
+                <option value="golden headphones.png">golden headphones</option>
+                <option value="golf.png">golf</option>
+                <option value="keffiyeh.png">keffiyeh</option>
+                <option value="orange beanie.png">orange beanie</option>
+                <option value="rainbow.png">rainbow</option>
+                <option value="red bucket hat.png">red bucket hat</option>
+                <option value="safari.png">safari</option>
+                <option value="snapback.png">snapback</option>
+                <option value="sports headband.png">sports headband</option>
+                <option value="vr headset.png">vr headset</option>
+                <option value="wizard hat.png">wizard hat</option>
+              </select>
+            </div>
+
             {/* piercing selection */}
             <div id="piercingSelect" className="py-2">
               <label>piercing:</label>
-              <select className="p-2 rounded-xl border-2 border-purrOrange bg-purrGreen block" onChange={e => setPiercing(e.target.value)} value={piercing}>
-                <option className="bg-purrGreen" value="">none</option>
+              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setPiercing(e.target.value)} value={piercing}>
+                <option value="">none</option>
                 <option value="earring.png">earring</option>
               </select>
             </div>
 
           </div>
 
-          <div className="py-8" ref={sketchRef}>
+          <div className="py-8 flex items-center justify-center" ref={sketchRef}>
             <div id="purrCanvas"></div>
           </div>
 
