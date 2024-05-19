@@ -7,10 +7,14 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  /* text-align: center; */
 }
 
 body {
   font-family: 'Courier New', Courier, monospace;
-  background-color: #4b4848;
+  background-color: #daffdf;
+}
+
+#headerPurr {
+  max-width: 100px;
 }
