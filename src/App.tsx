@@ -5,14 +5,18 @@ import p5 from 'p5';
 function App() {
 
   // state
-  const [background, setBackground] = useState<string>();
-  const [fur, setFur] = useState<string>();
+  const [background, setBackground] = useState<string>("");
+  const [fur, setFur] = useState<string>("");
+  const [eyeColor, setEyeColor] = useState<string>("");
+  const [mouth, setMouth] = useState<string>("");
   const sketchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const sketch = (p: p5) => {
       let backgroundImg: p5.Image;
       let furImg: p5.Image;
+      let eyeColorImg: p5.Image;
+      let mouthImg: p5.Image;
 
       p.preload = () => {
         if (background) {
@@ -20,9 +24,17 @@ function App() {
         }
 
         if (fur) {
-          console.log(`loading fur: /trait-layers/fur/${fur}`);
           furImg = p.loadImage(`/trait-layers/fur/${fur}`);
         }
+
+        if (eyeColor) {
+          eyeColorImg = p.loadImage(`/trait-layers/eye color/${eyeColor}`);
+        }
+
+        if (mouth) {
+          mouthImg = p.loadImage(`/trait-layers/mouth/${mouth}`);
+        }
+
       };
 
       p.setup = () => {
@@ -32,12 +44,23 @@ function App() {
 
       p.draw = () => {
         p.clear();
+
         if (backgroundImg) {
           p.image(backgroundImg, 0, 0, p.width, p.height);
         }
+
         if (furImg) {
           p.image(furImg, 0, 0, p.width, p.height);
         }
+
+        if (eyeColorImg) {
+          p.image(eyeColorImg, 0, 0, p.width, p.height);
+        }
+
+        if (mouthImg) {
+          p.image(mouthImg, 0, 0, p.width, p.height);
+        }
+
       };
     };
 
@@ -46,7 +69,7 @@ function App() {
     return () => {
       purrP5.remove();
     };
-  }, [background, fur]);
+  }, [background, fur, eyeColor, mouth]);
 
 
 
@@ -75,7 +98,7 @@ function App() {
           {/* background selection */}
           <label>background:</label>
           <select className="p-2 rounded-xl mx-2 border-2 border-purrOrange bg-purrGreen block" onChange={e => setBackground(e.target.value)} value={background}>
-            <option className="bg-purrGreen" value="">select a background</option>
+            <option className="bg-purrGreen" value="">none</option>
             <option value="blue.png">blue</option>
             <option value="green.png">green</option>
             <option value="matrix.png">matrix</option>
@@ -90,7 +113,7 @@ function App() {
 
           <label>fur:</label>
           <select className="p-2 rounded-xl mx-2 border-2 border-purrOrange bg-purrGreen block" onChange={e => setFur(e.target.value)} value={fur}>
-            <option className="bg-purrGreen" value="">select fur color</option>
+            <option className="bg-purrGreen" value="">none</option>
             <option value="black.png">black</option>
             <option value="cheshire.png">cheshire</option>
             <option value="cool blue.png">cool blue</option>
@@ -100,10 +123,34 @@ function App() {
             <option value="siamese.png">siamese</option>
             <option value="white.png">white</option>
           </select>
+
+          <label>eye color:</label>
+          <select className="p-2 rounded-xl mx-2 border-2 border-purrOrange bg-purrGreen block" onChange={e => setEyeColor(e.target.value)} value={eyeColor}>
+            <option className="bg-purrGreen" value="">none</option>
+            <option value="bloodshot.png">bloodshot</option>
+            <option value="blue.png">blue</option>
+            <option value="green.png">green</option>
+            <option value="orange.png">orange</option>
+            <option value="purple.png">purple</option>
+            <option value="yellow.png">yellow</option>
+          </select>
+
+          <label>mouth:</label>
+          <select className="p-2 rounded-xl mx-2 border-2 border-purrOrange bg-purrGreen block" onChange={e => setMouth(e.target.value)} value={mouth}>
+            <option className="bg-purrGreen" value="">none</option>
+            <option value="bored.png">bored</option>
+            <option value="bubble gum.png">bubble gum</option>
+            <option value="cig.png">cig</option>
+            <option value="mustache.png">mustache</option>
+            <option value="nyan cat.png">nyan cat</option>
+            <option value="smile.png">smile</option>
+            <option value="vape.png">vape</option>
+            <option value="yawn.png">yawn</option>
+          </select>
           
         </div>
 
-        <div ref={sketchRef}>
+        <div className="py-8" ref={sketchRef}>
           <div id="purrCanvas"></div>
         </div>
 
