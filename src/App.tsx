@@ -9,6 +9,7 @@ function App() {
   const [fur, setFur] = useState<string>("");
   const [eyeColor, setEyeColor] = useState<string>("");
   const [mouth, setMouth] = useState<string>("");
+  const [eyewear, setEyewear] = useState<string>("");
   const [piercing, setPiercing] = useState<string>("");
   const sketchRef = useRef<HTMLDivElement>(null);
 
@@ -18,6 +19,7 @@ function App() {
       let furImg: p5.Image;
       let eyeColorImg: p5.Image;
       let mouthImg: p5.Image;
+      let eyewearImg: p5.Image;
       let piercingImg: p5.Image;
 
       p.preload = () => {
@@ -35,6 +37,10 @@ function App() {
 
         if (mouth) {
           mouthImg = p.loadImage(`/trait-layers/mouth/${mouth}`);
+        }
+
+        if (eyewear) {
+          eyewearImg = p.loadImage(`/trait-layers/eyewear/${eyewear}`);
         }
 
         if (piercing) {
@@ -67,6 +73,10 @@ function App() {
           p.image(mouthImg, 0, 0, p.width, p.height);
         }
 
+        if (eyewearImg) {
+          p.image(eyewearImg, 0, 0, p.width, p.height);
+        }
+
         if (piercingImg) {
           p.image(piercingImg, 0, 0, p.width, p.height);
         }
@@ -79,7 +89,7 @@ function App() {
     return () => {
       purrP5.remove();
     };
-  }, [background, fur, eyeColor, mouth, piercing]);
+  }, [background, fur, eyeColor, mouth, eyewear, piercing]);
 
 
 
@@ -90,10 +100,13 @@ function App() {
 
   return (
     <>
-      <header className='flex flex-row justify-center text-center border-2 border-purrPurple'>
+      <header className='flex flex-row justify-evenly text-center mb-8'>
         <img id="headerPurr" className="rounded-xl" src='purr.png' alt='a pixelated tabby cat wearing a hoodie, smoking a vape, and observing the chaos' />
 
-        <h1>mfpurr factory</h1>
+<div id="headerText" className="flex flex-col align-center text-center">
+        <h1 className="self-center text-2xl font-bold">｡･ﾟﾟ･ mfpurr factory ･ﾟﾟ･｡</h1>
+        <h4 className="italic">by imp0ster</h4>
+</div>
       </header>
 
       <main>
@@ -162,10 +175,28 @@ function App() {
                 <option value="bubble gum.png">bubble gum</option>
                 <option value="cig.png">cig</option>
                 <option value="mustache.png">mustache</option>
-                <option value="nyan cat.png">nyan cat</option>
+                {/* <option value="nyan cat.png">nyan cat</option> */}
                 <option value="smile.png">smile</option>
                 <option value="vape.png">vape</option>
                 <option value="yawn.png">yawn</option>
+              </select>
+            </div>
+
+            {/* eyewear selection */}
+            <div id="eyewearSelect" className="py-2">
+              <label>eyewear:</label>
+              <select className="p-2 rounded-xl border-2 border-purrOrange bg-purrGreen block" onChange={e => setEyewear(e.target.value)} value={eyewear}>
+                <option className="bg-purrGreen" value="">none</option>
+                <option value="aviators.png">aviators</option>
+                <option value="bitcoin maxi.png">bitcoin matrix</option>
+                <option value="blue noggles.png">blue noggles</option>
+                <option value="deal with it.png">deal with it</option>
+                <option value="morpheus.png">morpheus</option>
+                <option value="nerd.png">nerd</option>
+                {/* <option value="nyan noggles.gif">nyan noggles</option> */}
+                <option value="red noggles.png">red noggles</option>
+                <option value="tired.png">tired</option>
+                <option value="viper glasses.png">viper glasses</option>
               </select>
             </div>
 
