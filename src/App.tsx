@@ -118,11 +118,12 @@ function App() {
     setEyewear("");
     setClothing("");
     setMouth("");
+    setHat("");
     setPiercing("");
   }
 
   const areAnyTraitsSelected = () => {
-    return background || fur || eyeColor || eyewear || clothing || mouth || piercing;
+    return background || fur || eyeColor || eyewear || clothing || mouth || hat || piercing;
   };
 
 
@@ -158,7 +159,7 @@ function App() {
             {/* background selection */}
             <div id="backgroundSelect" className="py-2">
               <label>background:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setBackground(e.target.value)} value={background}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setBackground(e.target.value)} value={background}>
                 <option value="">none</option>
                 <option value="blue.png">blue</option>
                 <option value="green.png">green</option>
@@ -176,7 +177,7 @@ function App() {
             {/* fur selection */}
             <div id="furSelect" className="py-2">
               <label>fur:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setFur(e.target.value)} value={fur}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setFur(e.target.value)} value={fur}>
                 <option value="">none</option>
                 <option value="black.png">black</option>
                 <option value="cheshire.png">cheshire</option>
@@ -192,7 +193,7 @@ function App() {
             {/* eye color selection */}
             <div id="eyeColorSelect" className="py-2">
               <label>eye color:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setEyeColor(e.target.value)} value={eyeColor}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setEyeColor(e.target.value)} value={eyeColor}>
                 <option value="">none</option>
                 <option value="bloodshot.png">bloodshot</option>
                 <option value="blue.png">blue</option>
@@ -206,7 +207,7 @@ function App() {
             {/* clothing selection */}
             <div id="clothingSelect" className="py-2">
               <label>clothing:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setClothing(e.target.value)} value={clothing}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setClothing(e.target.value)} value={clothing}>
                 <option value="">none</option>
                 <option value="black hoodie.png">black hoodie</option>
                 <option value="blue tee.png">blue tee</option>
@@ -225,7 +226,7 @@ function App() {
             {/* mouth selection */}
             <div id="mouthSelect" className="py-2">
               <label>mouth:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setMouth(e.target.value)} value={mouth}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setMouth(e.target.value)} value={mouth}>
                 <option value="">none</option>
                 <option value="bored.png">bored</option>
                 <option value="bubble gum.png">bubble gum</option>
@@ -242,7 +243,7 @@ function App() {
             {/* eyewear selection */}
             <div id="eyewearSelect" className="py-2">
               <label>eyewear:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setEyewear(e.target.value)} value={eyewear}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setEyewear(e.target.value)} value={eyewear}>
                 <option value="">none</option>
                 <option value="aviators.png">aviators</option>
                 <option value="bitcoin maxi.png">bitcoin maxi</option>
@@ -260,7 +261,7 @@ function App() {
             {/* hatselection */}
             <div id="hatSelect" className="py-2">
               <label>hat:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setHat(e.target.value)} value={hat}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setHat(e.target.value)} value={hat}>
                 <option value="">none</option>
                 <option value="420 bucket hat.png">420 bucket hat</option>
                 <option value="black beanie.png">black beanie</option>
@@ -286,7 +287,7 @@ function App() {
             {/* piercing selection */}
             <div id="piercingSelect" className="py-2">
               <label>piercing:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setPiercing(e.target.value)} value={piercing}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setPiercing(e.target.value)} value={piercing}>
                 <option value="">none</option>
                 <option value="earring.png">earring</option>
               </select>
