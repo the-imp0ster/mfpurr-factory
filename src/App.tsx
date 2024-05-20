@@ -111,6 +111,20 @@ function App() {
     };
   }, [background, fur, eyeColor, eyewear, clothing, mouth, hat, piercing]);
 
+  const resetCanvas = () => {
+    setBackground("");
+    setFur("");
+    setEyeColor("");
+    setEyewear("");
+    setClothing("");
+    setMouth("");
+    setPiercing("");
+  }
+
+  const areAnyTraitsSelected = () => {
+    return background || fur || eyeColor || eyewear || clothing || mouth || piercing;
+  };
+
 
 
   // const clickPurr = () => {
@@ -120,14 +134,16 @@ function App() {
 
   return (
     <>
-      <header className='flex flex-row justify-evenly text-center mb-8'>
-        <img id="headerPurr" className="rounded-xl" src='purr.png' alt='a pixelated tabby cat wearing a hoodie, smoking a vape, and observing the chaos' />
+      <header className='flex flex-row justify-evenly text-center mb-2'>
+        <a href="https://mfpurrs.com/"><img id="headerPurr" className="rounded-xl" src='purr.png' alt='a pixelated tabby cat wearing a hoodie, smoking a vape, and observing the chaos' /></a>
 
-        <div id="headerText" className="flex flex-col align-center text-center">
-          <h1 className="self-center text-2xl font-bold">｡･ﾟﾟ･ mfpurr factory ･ﾟﾟ･｡</h1>
-          <h4 className="italic">by imp0ster</h4>
+        <div id="headerText" className="flex flex-col align-center text-center justify-center">
+          <h1 className="self-center text-4xl font-bold">mfpurr factory</h1>
+          <h4 className="italic">build your own purr</h4>
         </div>
       </header>
+
+      <hr className="border border-zinc-400 w-3/4 self-center" />
 
       <main>
         <div>
@@ -136,12 +152,13 @@ function App() {
           mfpurr
         </button> */}
 
-          <div id="traitSelection" className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+          <div id="traitSelection" className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mt-8">
+
 
             {/* background selection */}
             <div id="backgroundSelect" className="py-2">
               <label>background:</label>
-              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setBackground(e.target.value)} value={background}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setBackground(e.target.value)} value={background}>
                 <option value="">none</option>
                 <option value="blue.png">blue</option>
                 <option value="green.png">green</option>
@@ -159,7 +176,7 @@ function App() {
             {/* fur selection */}
             <div id="furSelect" className="py-2">
               <label>fur:</label>
-              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setFur(e.target.value)} value={fur}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setFur(e.target.value)} value={fur}>
                 <option value="">none</option>
                 <option value="black.png">black</option>
                 <option value="cheshire.png">cheshire</option>
@@ -175,7 +192,7 @@ function App() {
             {/* eye color selection */}
             <div id="eyeColorSelect" className="py-2">
               <label>eye color:</label>
-              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setEyeColor(e.target.value)} value={eyeColor}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setEyeColor(e.target.value)} value={eyeColor}>
                 <option value="">none</option>
                 <option value="bloodshot.png">bloodshot</option>
                 <option value="blue.png">blue</option>
@@ -189,7 +206,7 @@ function App() {
             {/* clothing selection */}
             <div id="clothingSelect" className="py-2">
               <label>clothing:</label>
-              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setClothing(e.target.value)} value={clothing}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setClothing(e.target.value)} value={clothing}>
                 <option value="">none</option>
                 <option value="black hoodie.png">black hoodie</option>
                 <option value="blue tee.png">blue tee</option>
@@ -208,7 +225,7 @@ function App() {
             {/* mouth selection */}
             <div id="mouthSelect" className="py-2">
               <label>mouth:</label>
-              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setMouth(e.target.value)} value={mouth}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setMouth(e.target.value)} value={mouth}>
                 <option value="">none</option>
                 <option value="bored.png">bored</option>
                 <option value="bubble gum.png">bubble gum</option>
@@ -225,10 +242,10 @@ function App() {
             {/* eyewear selection */}
             <div id="eyewearSelect" className="py-2">
               <label>eyewear:</label>
-              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setEyewear(e.target.value)} value={eyewear}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setEyewear(e.target.value)} value={eyewear}>
                 <option value="">none</option>
                 <option value="aviators.png">aviators</option>
-                <option value="bitcoin maxi.png">bitcoin matrix</option>
+                <option value="bitcoin maxi.png">bitcoin maxi</option>
                 <option value="blue noggles.png">blue noggles</option>
                 <option value="deal with it.png">deal with it</option>
                 <option value="morpheus.png">morpheus</option>
@@ -243,7 +260,7 @@ function App() {
             {/* hatselection */}
             <div id="hatSelect" className="py-2">
               <label>hat:</label>
-              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setHat(e.target.value)} value={hat}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setHat(e.target.value)} value={hat}>
                 <option value="">none</option>
                 <option value="420 bucket hat.png">420 bucket hat</option>
                 <option value="black beanie.png">black beanie</option>
@@ -269,7 +286,7 @@ function App() {
             {/* piercing selection */}
             <div id="piercingSelect" className="py-2">
               <label>piercing:</label>
-              <select className="p-2 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setPiercing(e.target.value)} value={piercing}>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block" onChange={e => setPiercing(e.target.value)} value={piercing}>
                 <option value="">none</option>
                 <option value="earring.png">earring</option>
               </select>
@@ -281,8 +298,29 @@ function App() {
             <div id="purrCanvas"></div>
           </div>
 
+          {areAnyTraitsSelected() && (
+            <div className="flex flex-row justify-center mb-4 text-xs">
+              <button className="px-2 py-1 mx-2 bg-amber-50 border-2 border-lime-300 rounded-lg hover:bg-lime-300">save</button>
+              <button className="px-2 py-1 mx-2 bg-amber-50 border-2 border-lime-300 rounded-lg hover:bg-lime-300">copy</button>
+              <button className="px-2 py-1 mx-2 bg-amber-50 border-2 border-lime-300 rounded-lg hover:bg-lime-300" onClick={resetCanvas}>reset</button>
+            </div>
+          )}
+
+
         </div>
       </main>
+
+      <hr className="border border-zinc-400 w-3/4 self-center" />
+
+      <footer className="flex flex-col text-center mt-2">
+        <h4>an app by imp0ster 💚</h4>
+        <div className="flex flex-row justify-evenly py-4 text-xs underline">
+          <a href="github">github</a>
+          <a href="x">x</a>
+          <a href="farcaster">farcaster</a>
+        </div>
+        <h4 className="text-xs italic">~ based on <a className="underline" href="https://mfpurrs.com">mfpurrs</a> ethscription collection ~</h4>
+      </footer>
     </>
   )
 }

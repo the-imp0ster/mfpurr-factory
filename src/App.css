@@ -7,6 +7,10 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   /* text-align: center; */
 }
 
@@ -17,4 +21,32 @@ body {
 
 #headerPurr {
   max-width: 100px;
+}
+
+#headerPurr:hover {
+  animation: wiggle 0.4s ease-in-out 1;
+}
+
+
+
+@keyframes wiggle {
+  0% {
+      transform: rotate(5deg);
+  }
+
+  25% {
+      transform: rotate(-2deg);
+  }
+
+  50% {
+      transform: rotate(5deg);
+  }
+
+  75% {
+      transform: rotate(-2deg);
+  }
+
+  100% {
+      transform: rotate(5deg);
+  }
 }
