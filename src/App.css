@@ -10,13 +10,11 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  /* text-align: center; */
 }
 
 body {
   font-family: 'Courier New', Courier, monospace;
-  background-color: #daffdf;
+  background-color: #ffe260;
 }
 
 #headerPurr {
@@ -48,4 +46,21 @@ body {
   100% {
       transform: rotate(5deg);
   }
+}
+
+
+@keyframes swell {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.swell {
+  animation: swell 1s ease-out;
 }

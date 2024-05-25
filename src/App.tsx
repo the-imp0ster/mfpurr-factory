@@ -153,7 +153,11 @@ function App() {
           setCopyButtonText("copied!");
           setTimeout(() => {
             setCopyButtonText("copy");
-          }, 5000);
+          }, 3000);
+          canvas.classList.add('swell');
+          setTimeout(() => {
+            canvas.classList.remove('swell');
+          }, 1000);
         }
       });
     }
@@ -170,7 +174,7 @@ function App() {
         </div>
       </header>
 
-      <hr className="border border-zinc-400 w-3/4 self-center" />
+      <hr className="border border-purrOrange w-3/4 self-center" />
 
       <main className="flex-grow">
         <div>
@@ -181,7 +185,7 @@ function App() {
             {/* background selection */}
             <div id="backgroundSelect" className="py-2 flex flex-col">
               <label className="text-lg">background: </label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50  cursor-pointer" onChange={e => setBackground(e.target.value)} value={background}>
+              <select className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100  cursor-pointer" onChange={e => setBackground(e.target.value)} value={background}>
                 <option value="">none</option>
                 <option value="blue.png">blue</option>
                 <option value="green.png">green</option>
@@ -199,7 +203,7 @@ function App() {
             {/* fur selection */}
             <div id="furSelect" className="py-2 flex flex-col">
               <label className="text-lg">fur: </label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50  cursor-pointer" onChange={e => setFur(e.target.value)} value={fur}>
+              <select className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100  cursor-pointer" onChange={e => setFur(e.target.value)} value={fur}>
                 <option value="">none</option>
                 <option value="black.png">black</option>
                 <option value="cheshire.png">cheshire</option>
@@ -215,7 +219,7 @@ function App() {
             {/* eye color selection */}
             <div id="eyeColorSelect" className="py-2 flex flex-col">
               <label className="text-lg">eye color: </label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50  cursor-pointer" onChange={e => setEyeColor(e.target.value)} value={eyeColor}>
+              <select className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100  cursor-pointer" onChange={e => setEyeColor(e.target.value)} value={eyeColor}>
                 <option value="">none</option>
                 <option value="bloodshot.png">bloodshot</option>
                 <option value="blue.png">blue</option>
@@ -229,7 +233,7 @@ function App() {
             {/* clothing selection */}
             <div id="clothingSelect" className="py-2 flex flex-col">
               <label className="text-lg">clothing: </label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 cursor-pointer" onChange={e => setClothing(e.target.value)} value={clothing}>
+              <select className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100 cursor-pointer" onChange={e => setClothing(e.target.value)} value={clothing}>
                 <option value="">none</option>
                 <option value="black hoodie.png">black hoodie</option>
                 <option value="blue tee.png">blue tee</option>
@@ -248,7 +252,7 @@ function App() {
             {/* mouth selection */}
             <div id="mouthSelect" className="py-2 flex flex-col">
               <label className="text-lg">mouth: </label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50  cursor-pointer" onChange={e => setMouth(e.target.value)} value={mouth}>
+              <select className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100  cursor-pointer" onChange={e => setMouth(e.target.value)} value={mouth}>
                 <option value="">none</option>
                 <option value="bored.png">bored</option>
                 <option value="bubble gum.png">bubble gum</option>
@@ -265,7 +269,7 @@ function App() {
             {/* eyewear selection */}
             <div id="eyewearSelect" className="py-2 flex flex-col">
               <label className="text-lg">eyewear: </label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50  cursor-pointer" onChange={e => setEyewear(e.target.value)} value={eyewear}>
+              <select className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100  cursor-pointer" onChange={e => setEyewear(e.target.value)} value={eyewear}>
                 <option value="">none</option>
                 <option value="aviators.png">aviators</option>
                 <option value="bitcoin maxi.png">bitcoin maxi</option>
@@ -283,7 +287,7 @@ function App() {
             {/* hatselection */}
             <div id="hatSelect" className="py-2 flex flex-col">
               <label className="text-lg">hat: </label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 cursor-pointer" onChange={e => setHat(e.target.value)} value={hat}>
+              <select className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100 cursor-pointer" onChange={e => setHat(e.target.value)} value={hat}>
                 <option value="">none</option>
                 <option value="420 bucket hat.png">420 bucket hat</option>
                 <option value="black beanie.png">black beanie</option>
@@ -309,7 +313,7 @@ function App() {
             {/* piercing selection */}
             <div id="piercingSelect" className="py-2 flex flex-col">
               <label className="text-lg">piercing: </label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 cursor-pointer" onChange={e => setPiercing(e.target.value)} value={piercing}>
+              <select className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100 cursor-pointer" onChange={e => setPiercing(e.target.value)} value={piercing}>
                 <option value="">none</option>
                 <option value="earring.png">earring</option>
               </select>
@@ -323,9 +327,9 @@ function App() {
 
           {areAnyTraitsSelected() && (
             <div className="flex flex-row justify-center mb-4 text-xs">
-              <button className="px-2 py-1 mx-2 bg-amber-50 border-2 border-lime-300 rounded-lg hover:bg-lime-300" onClick={saveImage}>save</button>
-              <button className="px-2 py-1 mx-2 bg-amber-50 border-2 border-lime-300 rounded-lg hover:bg-lime-300" onClick={copyImage}>{copyButtonText}</button>
-              <button className="px-2 py-1 mx-2 bg-amber-50 border-2 border-lime-300 rounded-lg hover:bg-lime-300" onClick={resetCanvas}>reset</button>
+              <button className="px-2 py-1 mx-2 bg-amber-100 border-2 border-purrOrange rounded-lg hover:bg-purrGreen" onClick={saveImage}>save</button>
+              <button className="px-2 py-1 mx-2 bg-amber-100 border-2 border-purrOrange rounded-lg hover:bg-purrGreen" onClick={copyImage}>{copyButtonText}</button>
+              <button className="px-2 py-1 mx-2 bg-amber-100 border-2 border-purrOrange rounded-lg hover:bg-purrGreen" onClick={resetCanvas}>reset</button>
             </div>
           )}
 
@@ -333,16 +337,16 @@ function App() {
         </div>
       </main>
 
-      <hr className="border border-zinc-400 w-3/4 self-center" />
+      <hr className="border border-purrOrange w-3/4 self-center" />
 
       <footer className="flex flex-col text-center mt-2 flex-shrink-0">
         <h4>an app by imp0ster 💚</h4>
-        <div className="flex flex-row justify-evenly py-4 text-xs underline">
-          <a href="https://warpcast.com/imp0ster">farcaster</a>
-          <a href="https://x.com/the_imp0ster">x</a>
-          <a href="https://github.com/the-imp0ster">github</a>
+        <h4 className="text-xs italic my-2">~ based on <a className="underline" href="https://mfpurrs.com">mfpurrs</a> ethscription collection, cc0 ~</h4>
+        <div className="flex flex-col sm:flex-row py-4 items-center justify-center text-xs underline">
+          <a className="m-2 p-2" href="https://warpcast.com/imp0ster">farcaster</a>
+          <a className="m-2 p-2" href="https://x.com/the_imp0ster">x</a>
+          <a className="m-2 p-2" href="https://github.com/the-imp0ster">github</a>
         </div>
-        <h4 className="text-xs italic">~ based on <a className="underline" href="https://mfpurrs.com">mfpurrs</a> ethscription collection, cc0 ~</h4>
       </footer>
     </>
   )
