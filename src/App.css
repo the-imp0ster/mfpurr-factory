@@ -10,7 +10,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   /* text-align: center; */
 }
 
@@ -26,7 +26,6 @@ body {
 #headerPurr:hover {
   animation: wiggle 0.4s ease-in-out 1;
 }
-
 
 
 @keyframes wiggle {

@@ -62,7 +62,7 @@ function App() {
       };
 
       p.setup = () => {
-        const canvas = p.createCanvas(300, 300);
+        const canvas = p.createCanvas(250, 250);
         canvas.parent('purrCanvas');
       };
 
@@ -146,7 +146,7 @@ function App() {
 
       <hr className="border border-zinc-400 w-3/4 self-center" />
 
-      <main>
+      <main className="flex-grow">
         <div>
 
           {/* <button className='bg-purrGreen opacity-80 border-8 rounded-xl border-purrOrange p-2 m-2 hover:opacity-100' onClick={clickPurr}>
@@ -316,11 +316,11 @@ function App() {
       <footer className="flex flex-col text-center mt-2">
         <h4>an app by imp0ster 💚</h4>
         <div className="flex flex-row justify-evenly py-4 text-xs underline">
-          <a href="github">github</a>
-          <a href="x">x</a>
-          <a href="farcaster">farcaster</a>
+          <a href="https://warpcast.com/imp0ster">farcaster</a>
+          <a href="https://x.com/the_imp0ster">x</a>
+          <a href="https://github.com/the-imp0ster">github</a>
         </div>
-        <h4 className="text-xs italic">~ based on <a className="underline" href="https://mfpurrs.com">mfpurrs</a> ethscription collection ~</h4>
+        <h4 className="text-xs italic">~ based on <a className="underline" href="https://mfpurrs.com">mfpurrs</a> ethscription collection, cc0 ~</h4>
       </footer>
     </>
   )
