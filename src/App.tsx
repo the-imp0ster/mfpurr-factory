@@ -13,6 +13,7 @@ function App() {
   const [mouth, setMouth] = useState<string>("");
   const [hat, setHat] = useState<string>("");
   const [piercing, setPiercing] = useState<string>("");
+  const [copyButtonText, setCopyButtonText] = useState<string>("copy");
   const sketchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -20,7 +21,8 @@ function App() {
       let backgroundImg: p5.Image | null = null;
       let furImg: p5.Image | null = null;
       let eyeColorImg: p5.Image | null = null;
-      let eyewearImg: p5.Image | null = null;
+      let eyewearBelowImg: p5.Image | null = null;
+      let eyewearAboveImg: p5.Image | null = null;
       let clothingImg: p5.Image | null = null;
       let mouthImg: p5.Image | null = null;
       let hatImg: p5.Image | null = null;
@@ -40,7 +42,8 @@ function App() {
         }
 
         if (eyewear) {
-          eyewearImg = p.loadImage(`/trait-layers/eyewear/${eyewear}`);
+          eyewearBelowImg = p.loadImage(`/trait-layers/eyewear/below/${eyewear}`);
+          eyewearAboveImg = p.loadImage(`/trait-layers/eyewear/above/${eyewear}`);
         }
 
         if (clothing) {
@@ -81,12 +84,16 @@ function App() {
           p.image(eyeColorImg, 0, 0, p.width, p.height);
         }
 
-        if (eyewearImg) {
-          p.image(eyewearImg, 0, 0, p.width, p.height);
+        if (eyewearBelowImg) {
+          p.image(eyewearBelowImg, 0, 0, p.width, p.height);
         }
 
         if (clothingImg) {
           p.image(clothingImg, 0, 0, p.width, p.height);
+        }
+
+        if (eyewearAboveImg) {
+          p.image(eyewearAboveImg, 0, 0, p.width, p.height);
         }
 
         if (mouthImg) {
@@ -126,16 +133,35 @@ function App() {
     return background || fur || eyeColor || eyewear || clothing || mouth || hat || piercing;
   };
 
+  const saveImage = () => {
+    const canvas = document.querySelector('canvas');
+    if (canvas) {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'mfpurr.png';
+      link.click();
+    }
+  };
 
-
-  // const clickPurr = () => {
-  //   console.log('mfpurrs just observe the chaos');
-  // }
-
+  const copyImage = () => {
+    const canvas = document.querySelector('canvas');
+    if (canvas) {
+      canvas.toBlob(blob => {
+        if (blob) {
+          const item = new ClipboardItem({ 'image/png': blob });
+          navigator.clipboard.write([item]);
+          setCopyButtonText("copied!");
+          setTimeout(() => {
+            setCopyButtonText("copy");
+          }, 5000);
+        }
+      });
+    }
+  };
 
   return (
     <>
-      <header className='flex flex-row justify-evenly text-center mb-2'>
+      <header className='flex flex-col sm:flex-row justify-evenly text-center items-center mb-2'>
         <a href="https://mfpurrs.com/"><img id="headerPurr" className="rounded-xl" src='purr.png' alt='a pixelated tabby cat wearing a hoodie, smoking a vape, and observing the chaos' /></a>
 
         <div id="headerText" className="flex flex-col align-center text-center justify-center">
@@ -149,17 +175,13 @@ function App() {
       <main className="flex-grow">
         <div>
 
-          {/* <button className='bg-purrGreen opacity-80 border-8 rounded-xl border-purrOrange p-2 m-2 hover:opacity-100' onClick={clickPurr}>
-          mfpurr
-        </button> */}
-
-          <div id="traitSelection" className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mt-8">
+          <div id="traitSelection" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
 
 
             {/* background selection */}
-            <div id="backgroundSelect" className="py-2">
-              <label>background:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setBackground(e.target.value)} value={background}>
+            <div id="backgroundSelect" className="py-2 flex flex-col">
+              <label className="text-lg">background: </label>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50  cursor-pointer" onChange={e => setBackground(e.target.value)} value={background}>
                 <option value="">none</option>
                 <option value="blue.png">blue</option>
                 <option value="green.png">green</option>
@@ -175,9 +197,9 @@ function App() {
             </div>
 
             {/* fur selection */}
-            <div id="furSelect" className="py-2">
-              <label>fur:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setFur(e.target.value)} value={fur}>
+            <div id="furSelect" className="py-2 flex flex-col">
+              <label className="text-lg">fur: </label>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50  cursor-pointer" onChange={e => setFur(e.target.value)} value={fur}>
                 <option value="">none</option>
                 <option value="black.png">black</option>
                 <option value="cheshire.png">cheshire</option>
@@ -191,9 +213,9 @@ function App() {
             </div>
 
             {/* eye color selection */}
-            <div id="eyeColorSelect" className="py-2">
-              <label>eye color:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setEyeColor(e.target.value)} value={eyeColor}>
+            <div id="eyeColorSelect" className="py-2 flex flex-col">
+              <label className="text-lg">eye color: </label>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50  cursor-pointer" onChange={e => setEyeColor(e.target.value)} value={eyeColor}>
                 <option value="">none</option>
                 <option value="bloodshot.png">bloodshot</option>
                 <option value="blue.png">blue</option>
@@ -205,9 +227,9 @@ function App() {
             </div>
 
             {/* clothing selection */}
-            <div id="clothingSelect" className="py-2">
-              <label>clothing:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setClothing(e.target.value)} value={clothing}>
+            <div id="clothingSelect" className="py-2 flex flex-col">
+              <label className="text-lg">clothing: </label>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 cursor-pointer" onChange={e => setClothing(e.target.value)} value={clothing}>
                 <option value="">none</option>
                 <option value="black hoodie.png">black hoodie</option>
                 <option value="blue tee.png">blue tee</option>
@@ -224,9 +246,9 @@ function App() {
             </div>
 
             {/* mouth selection */}
-            <div id="mouthSelect" className="py-2">
-              <label>mouth:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setMouth(e.target.value)} value={mouth}>
+            <div id="mouthSelect" className="py-2 flex flex-col">
+              <label className="text-lg">mouth: </label>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50  cursor-pointer" onChange={e => setMouth(e.target.value)} value={mouth}>
                 <option value="">none</option>
                 <option value="bored.png">bored</option>
                 <option value="bubble gum.png">bubble gum</option>
@@ -241,9 +263,9 @@ function App() {
 
 
             {/* eyewear selection */}
-            <div id="eyewearSelect" className="py-2">
-              <label>eyewear:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setEyewear(e.target.value)} value={eyewear}>
+            <div id="eyewearSelect" className="py-2 flex flex-col">
+              <label className="text-lg">eyewear: </label>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50  cursor-pointer" onChange={e => setEyewear(e.target.value)} value={eyewear}>
                 <option value="">none</option>
                 <option value="aviators.png">aviators</option>
                 <option value="bitcoin maxi.png">bitcoin maxi</option>
@@ -259,9 +281,9 @@ function App() {
             </div>
 
             {/* hatselection */}
-            <div id="hatSelect" className="py-2">
-              <label>hat:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setHat(e.target.value)} value={hat}>
+            <div id="hatSelect" className="py-2 flex flex-col">
+              <label className="text-lg">hat: </label>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 cursor-pointer" onChange={e => setHat(e.target.value)} value={hat}>
                 <option value="">none</option>
                 <option value="420 bucket hat.png">420 bucket hat</option>
                 <option value="black beanie.png">black beanie</option>
@@ -285,9 +307,9 @@ function App() {
             </div>
 
             {/* piercing selection */}
-            <div id="piercingSelect" className="py-2">
-              <label>piercing:</label>
-              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 block cursor-pointer" onChange={e => setPiercing(e.target.value)} value={piercing}>
+            <div id="piercingSelect" className="py-2 flex flex-col">
+              <label className="text-lg">piercing: </label>
+              <select className="p-1 rounded-xl border-2 border-lime-300 bg-amber-50 cursor-pointer" onChange={e => setPiercing(e.target.value)} value={piercing}>
                 <option value="">none</option>
                 <option value="earring.png">earring</option>
               </select>
@@ -301,8 +323,8 @@ function App() {
 
           {areAnyTraitsSelected() && (
             <div className="flex flex-row justify-center mb-4 text-xs">
-              <button className="px-2 py-1 mx-2 bg-amber-50 border-2 border-lime-300 rounded-lg hover:bg-lime-300">save</button>
-              <button className="px-2 py-1 mx-2 bg-amber-50 border-2 border-lime-300 rounded-lg hover:bg-lime-300">copy</button>
+              <button className="px-2 py-1 mx-2 bg-amber-50 border-2 border-lime-300 rounded-lg hover:bg-lime-300" onClick={saveImage}>save</button>
+              <button className="px-2 py-1 mx-2 bg-amber-50 border-2 border-lime-300 rounded-lg hover:bg-lime-300" onClick={copyImage}>{copyButtonText}</button>
               <button className="px-2 py-1 mx-2 bg-amber-50 border-2 border-lime-300 rounded-lg hover:bg-lime-300" onClick={resetCanvas}>reset</button>
             </div>
           )}
@@ -313,7 +335,7 @@ function App() {
 
       <hr className="border border-zinc-400 w-3/4 self-center" />
 
-      <footer className="flex flex-col text-center mt-2">
+      <footer className="flex flex-col text-center mt-2 flex-shrink-0">
         <h4>an app by imp0ster 💚</h4>
         <div className="flex flex-row justify-evenly py-4 text-xs underline">
           <a href="https://warpcast.com/imp0ster">farcaster</a>
