@@ -169,7 +169,7 @@ function App() {
         <a href="https://mfpurrs.com/"><img id="headerPurr" className="rounded-xl" src='purr.png' alt='a pixelated tabby cat wearing a hoodie, smoking a vape, and observing the chaos' /></a>
 
         <div id="headerText" className="flex flex-col align-center text-center justify-center">
-          <h1 className="self-center text-4xl font-bold">mfpurr factory</h1>
+          <h1 className="self-center text-3xl font-bold">mfpurr factory</h1>
           <h4 className="italic">build your own purr</h4>
         </div>
       </header>
@@ -187,6 +187,7 @@ function App() {
               <label className="text-lg">background: </label>
               <select className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100  cursor-pointer" onChange={e => setBackground(e.target.value)} value={background}>
                 <option value="">none</option>
+                <option value="jazz.gif">jazz</option>
                 <option value="blue.png">blue</option>
                 <option value="green.png">green</option>
                 <option value="matrix.png">matrix</option>
@@ -321,8 +322,8 @@ function App() {
 
           </div>
 
-          <div className="py-8 flex items-center justify-center" ref={sketchRef}>
-            <div id="purrCanvas"></div>
+          <div className="py-8 flex items-center justify-center">
+            <div id="purrCanvas" ref={sketchRef} className={areAnyTraitsSelected() ? 'shadow-lg' : ''}></div>
           </div>
 
           {areAnyTraitsSelected() && (
@@ -340,12 +341,12 @@ function App() {
       <hr className="border border-purrOrange w-3/4 self-center" />
 
       <footer className="flex flex-col text-center mt-2 flex-shrink-0">
-        <h4>an app by imp0ster 💚</h4>
-        <h4 className="text-xs italic my-2">~ based on <a className="underline" href="https://mfpurrs.com">mfpurrs</a> ethscription collection, cc0 ~</h4>
-        <div className="flex flex-col sm:flex-row py-4 items-center justify-center text-xs underline">
-          <a className="m-2 p-2" href="https://warpcast.com/imp0ster">farcaster</a>
-          <a className="m-2 p-2" href="https://x.com/the_imp0ster">x</a>
-          <a className="m-2 p-2" href="https://github.com/the-imp0ster">github</a>
+        <h4 className="text-xs italic my-2">~ based on <a className="underline" href="https://mfpurrs.com">mfpurrs</a> ethscription collection by virtual alaska, ariana manavi, and max ~</h4>
+        <h4>xoxo imp0ster 💚</h4>
+        <div className="flex flex-col sm:flex-row items-center justify-center text-xs underline">
+          <a className="m-2" href="https://warpcast.com/imp0ster">farcaster</a>
+          <a className="m-2" href="https://x.com/the_imp0ster">x</a>
+          <a className="m-2" href="https://github.com/the-imp0ster">github</a>
         </div>
       </footer>
     </>
