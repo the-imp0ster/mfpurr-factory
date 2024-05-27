@@ -187,7 +187,6 @@ function App() {
               <label className="text-lg">background: </label>
               <select className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100  cursor-pointer" onChange={e => setBackground(e.target.value)} value={background}>
                 <option value="">none</option>
-                <option value="jazz.gif">jazz</option>
                 <option value="blue.png">blue</option>
                 <option value="green.png">green</option>
                 <option value="matrix.png">matrix</option>
