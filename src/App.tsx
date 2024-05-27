@@ -65,7 +65,7 @@ function App() {
       };
 
       p.setup = () => {
-        const canvas = p.createCanvas(275, 275);
+        const canvas = p.createCanvas(250, 250);
         canvas.parent('purrCanvas');
       };
 
