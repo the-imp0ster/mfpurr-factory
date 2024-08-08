@@ -14,7 +14,23 @@ function App() {
   const [hat, setHat] = useState<string>("");
   const [piercing, setPiercing] = useState<string>("");
   const [copyButtonText, setCopyButtonText] = useState<string>("copy");
+  const [canvasSize, setCanvasSize] = useState<number>(250);
+  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 500);
+  const [isNarrow, setIsNarrow] = useState<boolean>(window.innerWidth < 1000);
+
   const sketchRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 500);
+      setIsNarrow(window.innerWidth < 1000);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const sketch = (p: p5) => {
@@ -65,7 +81,7 @@ function App() {
       };
 
       p.setup = () => {
-        const canvas = p.createCanvas(250, 250);
+        const canvas = p.createCanvas(canvasSize, canvasSize);
         canvas.parent('purrCanvas');
       };
 
@@ -73,39 +89,39 @@ function App() {
         p.clear();
 
         if (backgroundImg) {
-          p.image(backgroundImg, 0, 0, p.width, p.height);
+          p.image(backgroundImg, 0, 0, canvasSize, canvasSize);
         }
 
         if (furImg) {
-          p.image(furImg, 0, 0, p.width, p.height);
+          p.image(furImg, 0, 0, canvasSize, canvasSize);
         }
 
         if (eyeColorImg) {
-          p.image(eyeColorImg, 0, 0, p.width, p.height);
+          p.image(eyeColorImg, 0, 0, canvasSize, canvasSize);
         }
 
         if (eyewearBelowImg) {
-          p.image(eyewearBelowImg, 0, 0, p.width, p.height);
+          p.image(eyewearBelowImg, 0, 0, canvasSize, canvasSize);
         }
 
         if (clothingImg) {
-          p.image(clothingImg, 0, 0, p.width, p.height);
+          p.image(clothingImg, 0, 0, canvasSize, canvasSize);
         }
 
         if (eyewearAboveImg) {
-          p.image(eyewearAboveImg, 0, 0, p.width, p.height);
+          p.image(eyewearAboveImg, 0, 0, canvasSize, canvasSize);
         }
 
         if (mouthImg) {
-          p.image(mouthImg, 0, 0, p.width, p.height);
+          p.image(mouthImg, 0, 0, canvasSize, canvasSize);
         }
 
         if (hatImg) {
-          p.image(hatImg, 0, 0, p.width, p.height);
+          p.image(hatImg, 0, 0, canvasSize, canvasSize);
         }
 
         if (piercingImg) {
-          p.image(piercingImg, 0, 0, p.width, p.height);
+          p.image(piercingImg, 0, 0, canvasSize, canvasSize);
         }
 
       };
@@ -116,7 +132,7 @@ function App() {
     return () => {
       purrP5.remove();
     };
-  }, [background, fur, eyeColor, eyewear, clothing, mouth, hat, piercing]);
+  }, [background, fur, eyeColor, eyewear, clothing, mouth, hat, piercing, canvasSize]);
 
   const resetCanvas = () => {
     setBackground("");
@@ -180,6 +196,31 @@ function App() {
         <div>
 
           <div id="traitSelection" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
+
+            {/* Size selection */}
+            <div id="sizeSelect" className="py-2 flex flex-col">
+              <label className="text-lg">size(pixels): </label>
+
+              <div className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100 cursor-pointer flex flex-row justify-evenly">
+
+              <div>
+                  <input type="radio" id="size250" name="size" value="250" checked={canvasSize === 250} onChange={e => setCanvasSize(parseInt(e.target.value))} />
+                  <label htmlFor="size250">250</label>
+                </div>
+
+                <div>
+                  <input type="radio" id="size500" name="size" value="500" checked={canvasSize === 500} onChange={e => setCanvasSize(parseInt(e.target.value))} disabled={isMobile} />
+                  <label htmlFor="size500">500</label>
+                </div>
+
+                <div>
+                  <input type="radio" id="size1000" name="size" value="1000" checked={canvasSize === 1000} onChange={e => setCanvasSize(parseInt(e.target.value))} disabled={isNarrow} />
+                  <label htmlFor="size1000">1000</label>
+                </div>
+
+              </div>
+
+            </div>
 
 
             {/* background selection */}
