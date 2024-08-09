@@ -287,6 +287,8 @@ function App() {
                 <option value="office shirt.png">office shirt</option>
                 <option value="red tee.png">red tee</option>
                 <option value="red tracksuit.png">red tracksuit</option>
+                <option value="space suit.png">space suit</option>
+
               </select>
             </div>
 
@@ -299,7 +301,7 @@ function App() {
                 <option value="bubble gum.png">bubble gum</option>
                 <option value="cig.png">cig</option>
                 <option value="mustache.png">mustache</option>
-                {/* <option value="nyan cat.png">nyan cat</option> */}
+                <option value="nyan cat.png">nyan cat</option>
                 <option value="smile.png">smile</option>
                 <option value="vape.png">vape</option>
                 <option value="yawn.png">yawn</option>
@@ -318,7 +320,6 @@ function App() {
                 <option value="deal with it.png">deal with it</option>
                 <option value="morpheus.png">morpheus</option>
                 <option value="nerd.png">nerd</option>
-                {/* <option value="nyan noggles.gif">nyan noggles</option> */}
                 <option value="red noggles.png">red noggles</option>
                 <option value="tired.png">tired</option>
                 <option value="viper glasses.png">viper glasses</option>
