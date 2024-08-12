@@ -59,7 +59,7 @@ function App() {
         if (background) {
           const extension = background.split('.').pop()?.toLowerCase();
           if (extension === 'gif') {
-            backgroundGif = p.loadGif(`/trait-layers/background/${background}`);
+            backgroundGif = p.loadImage(`/trait-layers/background/${background}`);
           } else {
             backgroundImg = p.loadImage(`/trait-layers/background/${background}`);
           }
