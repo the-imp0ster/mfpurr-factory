@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import p5 from 'p5';
+import GIF from 'gif.js';
 
 function App() {
 
-  // state
+  // state management
   const [background, setBackground] = useState<string>("");
   const [fur, setFur] = useState<string>("");
   const [eyeColor, setEyeColor] = useState<string>("");
@@ -19,6 +20,8 @@ function App() {
   const [isNarrow, setIsNarrow] = useState<boolean>(window.innerWidth < 1000);
 
   const sketchRef = useRef<HTMLDivElement>(null);
+  const gifRef = useRef<GIF | null>(null);
+  const canvasRef = useRef<p5.Renderer | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -33,8 +36,16 @@ function App() {
   }, []);
 
   useEffect(() => {
+
+    const gif = new GIF({
+      workers: 2,
+      quality: 10,
+    });
+    gifRef.current = gif;
+
     const sketch = (p: p5) => {
       let backgroundImg: p5.Image | null = null;
+      let backgroundGif: p5.Image | null = null;
       let furImg: p5.Image | null = null;
       let eyeColorImg: p5.Image | null = null;
       let eyewearBelowImg: p5.Image | null = null;
@@ -46,7 +57,12 @@ function App() {
 
       p.preload = () => {
         if (background) {
-          backgroundImg = p.loadImage(`/trait-layers/background/${background}`);
+          const extension = background.split('.').pop()?.toLowerCase();
+          if (extension === 'gif') {
+            backgroundGif = p.loadGif(`/trait-layers/background/${background}`);
+          } else {
+            backgroundImg = p.loadImage(`/trait-layers/background/${background}`);
+          }
         }
 
         if (fur) {
@@ -81,14 +97,18 @@ function App() {
       };
 
       p.setup = () => {
-        const canvas = p.createCanvas(canvasSize, canvasSize);
-        canvas.parent('purrCanvas');
+        // const canvas = p.createCanvas(canvasSize, canvasSize);
+        // canvas.parent('purrCanvas');
+        canvasRef.current = p.createCanvas(canvasSize, canvasSize);
+        canvasRef.current.parent('purrCanvas');
       };
 
       p.draw = () => {
         p.clear();
 
-        if (backgroundImg) {
+        if (backgroundGif) {
+          p.image(backgroundGif, 0, 0, canvasSize, canvasSize);
+        } else if (backgroundImg) {
           p.image(backgroundImg, 0, 0, canvasSize, canvasSize);
         }
 
@@ -124,7 +144,17 @@ function App() {
           p.image(piercingImg, 0, 0, canvasSize, canvasSize);
         }
 
+        if (backgroundGif) {
+          gif.addFrame(canvasRef.current!.elt as HTMLCanvasElement, { copy: true, delay: 100 });
+        }
       };
+
+      gif.on('finished', function (blob) {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'mfpurr.gif';
+        link.click();
+      });
     };
 
     const purrP5 = new p5(sketch, sketchRef.current!);
@@ -149,13 +179,27 @@ function App() {
     return background || fur || eyeColor || eyewear || clothing || mouth || hat || piercing;
   };
 
+  // const saveImage = () => {
+  //   const canvas = document.querySelector('canvas');
+  //   if (canvas) {
+  //     const link = document.createElement('a');
+  //     link.href = canvas.toDataURL('image/png');
+  //     link.download = 'mfpurr.png';
+  //     link.click();
+  //   }
+  // };
+
   const saveImage = () => {
-    const canvas = document.querySelector('canvas');
-    if (canvas) {
-      const link = document.createElement('a');
-      link.href = canvas.toDataURL('image/png');
-      link.download = 'mfpurr.png';
-      link.click();
+    if (background.endsWith('.gif')) {
+      gifRef.current?.render();
+    } else {
+      const canvas = document.querySelector('canvas');
+      if (canvas) {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'mfpurr.png';
+        link.click();
+      }
     }
   };
 
@@ -203,7 +247,7 @@ function App() {
 
               <div className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100 cursor-pointer flex flex-row justify-evenly">
 
-              <div>
+                <div>
                   <input type="radio" id="size250" name="size" value="250" checked={canvasSize === 250} onChange={e => setCanvasSize(parseInt(e.target.value))} />
                   <label htmlFor="size250">250</label>
                 </div>
@@ -238,6 +282,7 @@ function App() {
                 <option value="this is fine.png">this is fine</option>
                 <option value="windows.png">windows</option>
                 <option value="yellow.png">yellow</option>
+                <option value="jazz.gif">jazz</option>
               </select>
             </div>
 
