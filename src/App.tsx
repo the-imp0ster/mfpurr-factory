@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './App.css';
-import p5 from 'p5';
 
 function App() {
-
   // state
   const [background, setBackground] = useState<string>("");
   const [fur, setFur] = useState<string>("");
@@ -18,8 +16,9 @@ function App() {
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 500);
   const [isNarrow, setIsNarrow] = useState<boolean>(window.innerWidth < 1000);
 
-  const sketchRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // handle window resize
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 500);
@@ -27,113 +26,96 @@ function App() {
     };
 
     window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // draw images on canvas
   useEffect(() => {
-    const sketch = (p: p5) => {
-      let backgroundImg: p5.Image | null = null;
-      let furImg: p5.Image | null = null;
-      let eyeColorImg: p5.Image | null = null;
-      let eyewearBelowImg: p5.Image | null = null;
-      let eyewearAboveImg: p5.Image | null = null;
-      let clothingImg: p5.Image | null = null;
-      let mouthImg: p5.Image | null = null;
-      let hatImg: p5.Image | null = null;
-      let piercingImg: p5.Image | null = null;
+    const canvas = canvasRef.current;
+    console.log("Canvas Ref:", canvas);
 
-      p.preload = () => {
-        if (background) {
-          backgroundImg = p.loadImage(`/trait-layers/background/${background}`);
-        }
+    const ctx = canvas?.getContext('2d');
 
-        if (fur) {
-          furImg = p.loadImage(`/trait-layers/fur/${fur}`);
-        }
 
-        if (eyeColor) {
-          eyeColorImg = p.loadImage(`/trait-layers/eye color/${eyeColor}`);
-        }
+    if (!ctx) {
+      console.error("canvas context is null or undefined"); 
+      return;
+    }
+      
 
-        if (eyewear) {
-          eyewearBelowImg = p.loadImage(`/trait-layers/eyewear/below/${eyewear}`);
-          eyewearAboveImg = p.loadImage(`/trait-layers/eyewear/above/${eyewear}`);
-        }
+    // Clear the canvas before redrawing
+    ctx.clearRect(0, 0, canvasSize, canvasSize);
 
-        if (clothing) {
-          clothingImg = p.loadImage(`/trait-layers/clothing/${clothing}`);
-        }
-
-        if (mouth) {
-          mouthImg = p.loadImage(`/trait-layers/mouth/${mouth}`);
-        }
-
-        if (hat) {
-          hatImg = p.loadImage(`/trait-layers/hat/${hat}`);
-        }
-
-        if (piercing) {
-          piercingImg = p.loadImage(`/trait-layers/piercing/${piercing}`);
-        }
-
-      };
-
-      p.setup = () => {
-        const canvas = p.createCanvas(canvasSize, canvasSize);
-        canvas.parent('purrCanvas');
-      };
-
-      p.draw = () => {
-        p.clear();
-
-        if (backgroundImg) {
-          p.image(backgroundImg, 0, 0, canvasSize, canvasSize);
-        }
-
-        if (furImg) {
-          p.image(furImg, 0, 0, canvasSize, canvasSize);
-        }
-
-        if (eyeColorImg) {
-          p.image(eyeColorImg, 0, 0, canvasSize, canvasSize);
-        }
-
-        if (eyewearBelowImg) {
-          p.image(eyewearBelowImg, 0, 0, canvasSize, canvasSize);
-        }
-
-        if (clothingImg) {
-          p.image(clothingImg, 0, 0, canvasSize, canvasSize);
-        }
-
-        if (eyewearAboveImg) {
-          p.image(eyewearAboveImg, 0, 0, canvasSize, canvasSize);
-        }
-
-        if (mouthImg) {
-          p.image(mouthImg, 0, 0, canvasSize, canvasSize);
-        }
-
-        if (hatImg) {
-          p.image(hatImg, 0, 0, canvasSize, canvasSize);
-        }
-
-        if (piercingImg) {
-          p.image(piercingImg, 0, 0, canvasSize, canvasSize);
-        }
-
-      };
+    const drawImageLayer = (src: string) => {
+      return new Promise<HTMLImageElement>((resolve, reject) => {
+        const img = new Image();
+        img.src = `/trait-layers/${src}`;
+        img.onload = () => {
+          console.log(`Image loaded: ${src}`);
+          resolve(img);
+        };
+        img.onerror = () => {
+          console.error(`Failed to load image: ${src}`);
+          reject();
+        };
+      });
     };
 
-    const purrP5 = new p5(sketch, sketchRef.current!);
+    // Function to draw all layers
+    const drawAllLayers = async () => {
+      const layers = [];
 
-    return () => {
-      purrP5.remove();
+      if (background) layers.push(drawImageLayer(`background/${background}`));
+      if (fur) layers.push(drawImageLayer(`fur/${fur}`));
+      if (eyeColor) layers.push(drawImageLayer(`eye color/${eyeColor}`));
+      if (eyewear) {
+        layers.push(drawImageLayer(`eyewear/below/${eyewear}`));
+        layers.push(drawImageLayer(`eyewear/above/${eyewear}`));
+      }
+      if (clothing) layers.push(drawImageLayer(`clothing/${clothing}`));
+      if (mouth) layers.push(drawImageLayer(`mouth/${mouth}`));
+      if (hat) layers.push(drawImageLayer(`hat/${hat}`));
+      if (piercing) layers.push(drawImageLayer(`piercing/${piercing}`));
+
+      const images = await Promise.all(layers);
+
+      images.forEach((img) => {
+        if (img) {
+          ctx.drawImage(img, 0, 0, canvasSize, canvasSize);
+        }
+      });
     };
+
+    drawAllLayers();
   }, [background, fur, eyeColor, eyewear, clothing, mouth, hat, piercing, canvasSize]);
 
+  // save image
+  const saveImage = () => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'mfpurr.png';
+      link.click();
+    }
+  };
+
+  // copy image to clipboard
+  const copyImage = () => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      canvas.toBlob(blob => {
+        if (blob) {
+          const item = new ClipboardItem({ 'image/png': blob });
+          navigator.clipboard.write([item]);
+          setCopyButtonText("copied!");
+          setTimeout(() => setCopyButtonText("copy"), 3000);
+        }
+      });
+    }
+  };
+
+  // reset canvas
   const resetCanvas = () => {
     setBackground("");
     setFur("");
@@ -143,47 +125,17 @@ function App() {
     setMouth("");
     setHat("");
     setPiercing("");
-  }
+  };
 
+  // check if any traits are selected
   const areAnyTraitsSelected = () => {
     return background || fur || eyeColor || eyewear || clothing || mouth || hat || piercing;
   };
 
-  const saveImage = () => {
-    const canvas = document.querySelector('canvas');
-    if (canvas) {
-      const link = document.createElement('a');
-      link.href = canvas.toDataURL('image/png');
-      link.download = 'mfpurr.png';
-      link.click();
-    }
-  };
-
-  const copyImage = () => {
-    const canvas = document.querySelector('canvas');
-    if (canvas) {
-      canvas.toBlob(blob => {
-        if (blob) {
-          const item = new ClipboardItem({ 'image/png': blob });
-          navigator.clipboard.write([item]);
-          setCopyButtonText("copied!");
-          setTimeout(() => {
-            setCopyButtonText("copy");
-          }, 3000);
-          canvas.classList.add('swell');
-          setTimeout(() => {
-            canvas.classList.remove('swell');
-          }, 1000);
-        }
-      });
-    }
-  };
-
   return (
     <>
-      <header className='flex flex-col sm:flex-row justify-evenly text-center items-center mb-2'>
-        <a href="https://mfpurrs.com/"><img id="headerPurr" className="rounded-xl" src='purr.png' alt='a pixelated tabby cat wearing a hoodie, smoking a vape, and observing the chaos' /></a>
-
+      <header className="flex flex-col sm:flex-row justify-evenly text-center items-center mb-2">
+        <a href="https://mfpurrs.com/"><img id="headerPurr" className="rounded-xl" src="purr.png" alt="pixelated tabby cat" /></a>
         <div id="headerText" className="flex flex-col align-center text-center justify-center">
           <h1 className="self-center text-3xl font-bold">mfpurr factory</h1>
           <h4 className="italic">build your own purr</h4>
@@ -194,37 +146,28 @@ function App() {
 
       <main className="flex-grow">
         <div>
-
-          <div id="traitSelection" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
-
-            {/* Size selection */}
-            <div id="sizeSelect" className="py-2 flex flex-col">
-              <label className="text-lg">size(pixels): </label>
-
-              <div className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100 cursor-pointer flex flex-row justify-evenly">
-
+        <div id="traitSelection" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
+          {/* Size selection */}
+          <div className="py-2 flex flex-col">
+            <label className="text-lg">Size (pixels):</label>
+            <div className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100 cursor-pointer flex flex-row justify-evenly">
               <div>
-                  <input type="radio" id="size250" name="size" value="250" checked={canvasSize === 250} onChange={e => setCanvasSize(parseInt(e.target.value))} />
-                  <label htmlFor="size250">250</label>
-                </div>
-
-                <div>
-                  <input type="radio" id="size500" name="size" value="500" checked={canvasSize === 500} onChange={e => setCanvasSize(parseInt(e.target.value))} disabled={isMobile} />
-                  <label htmlFor="size500">500</label>
-                </div>
-
-                <div>
-                  <input type="radio" id="size1000" name="size" value="1000" checked={canvasSize === 1000} onChange={e => setCanvasSize(parseInt(e.target.value))} disabled={isNarrow} />
-                  <label htmlFor="size1000">1000</label>
-                </div>
-
+                <input type="radio" id="size250" name="size" value="250" checked={canvasSize === 250} onChange={e => setCanvasSize(parseInt(e.target.value))} />
+                <label htmlFor="size250">250</label>
               </div>
-
+              <div>
+                <input type="radio" id="size500" name="size" value="500" checked={canvasSize === 500} onChange={e => setCanvasSize(parseInt(e.target.value))} disabled={isMobile} />
+                <label htmlFor="size500">500</label>
+              </div>
+              <div>
+                <input type="radio" id="size1000" name="size" value="1000" checked={canvasSize === 1000} onChange={e => setCanvasSize(parseInt(e.target.value))} disabled={isNarrow} />
+                <label htmlFor="size1000">1000</label>
+              </div>
             </div>
+          </div>
 
-
-            {/* background selection */}
-            <div id="backgroundSelect" className="py-2 flex flex-col">
+          {/* background selection */}
+          <div id="backgroundSelect" className="py-2 flex flex-col">
               <label className="text-lg">background: </label>
               <select className="p-1 rounded-xl border-2 border-purrOrange bg-amber-100  cursor-pointer" onChange={e => setBackground(e.target.value)} value={background}>
                 <option value="">none</option>
@@ -364,18 +307,16 @@ function App() {
           </div>
 
           <div className="py-8 flex items-center justify-center">
-            <div id="purrCanvas" ref={sketchRef} className={areAnyTraitsSelected() ? 'shadow-lg' : ''}></div>
+            <canvas ref={canvasRef} width={canvasSize} height={canvasSize} className={areAnyTraitsSelected() ? 'shadow-lg' : ''}></canvas>
           </div>
 
           {areAnyTraitsSelected() && (
             <div className="flex flex-row justify-center mb-4 text-xs">
-              <button className="px-2 py-1 mx-2 bg-amber-100 border-2 border-purrOrange rounded-lg hover:bg-purrGreen" onClick={saveImage}>save</button>
-              <button className="px-2 py-1 mx-2 bg-amber-100 border-2 border-purrOrange rounded-lg hover:bg-purrGreen" onClick={copyImage}>{copyButtonText}</button>
-              <button className="px-2 py-1 mx-2 bg-amber-100 border-2 border-purrOrange rounded-lg hover:bg-purrGreen" onClick={resetCanvas}>reset</button>
+              <button className="px-2 py-1 mx-2 bg-amber-100 border-2 border-purrOrange rounded-lg" onClick={saveImage}>save</button>
+              <button className="px-2 py-1 mx-2 bg-amber-100 border-2 border-purrOrange rounded-lg" onClick={copyImage}>{copyButtonText}</button>
+              <button className="px-2 py-1 mx-2 bg-amber-100 border-2 border-purrOrange rounded-lg" onClick={resetCanvas}>reset</button>
             </div>
           )}
-
-
         </div>
       </main>
 
@@ -383,15 +324,16 @@ function App() {
 
       <footer className="flex flex-col text-center mt-2 flex-shrink-0">
         <h4 className="text-xs italic my-2">~ based on <a className="underline" href="https://mfpurrs.com">mfpurrs</a> ethscription collection by virtual alaska, ariana manavi, and max ~</h4>
-        <h4>xoxo imp0ster 💚</h4>
-        <div className="flex flex-col sm:flex-row items-center justify-center text-xs underline">
-          <a className="m-2" href="https://warpcast.com/imp0ster">farcaster</a>
-          <a className="m-2" href="https://x.com/the_imp0ster">x</a>
-          <a className="m-2" href="https://github.com/the-imp0ster">github</a>
+        <p>xoxo imp0ster 💚</p>
+        <div className="flex flex-row justify-evenly text-xs underline">
+          <a href="https://warpcast.com/imp0ster">farcaster</a>
+          <a href="https://x.com/the_imp0ster">x</a>
+          <a href="https://github.com/the-imp0ster">github</a>
+
         </div>
       </footer>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
