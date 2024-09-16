@@ -349,6 +349,13 @@ function App() {
                 <option value="sports headband.png">sports headband</option>
                 <option value="vr headset.png">vr headset</option>
                 <option value="wizard hat.png">wizard hat</option>
+                <option value="helmetred.png">red helmet</option>
+                <option value="helmetblack.png">black helmet</option>
+                <option value="helmetgreen.png">green helmet</option>
+                <option value="helmetblue.png">blue helmet</option>
+                <option value="helmetorange.png">orange helmet</option>
+                <option value="helmetteal.png">teal helmet</option>
+                <option value="helmetpurple.png">purple helmet</option>
               </select>
             </div>
 
