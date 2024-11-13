@@ -341,6 +341,7 @@ function App() {
                 <option value="golden headphones.png">golden headphones</option>
                 <option value="golf.png">golf</option>
                 <option value="keffiyeh.png">keffiyeh</option>
+                <option value="mega_hat.png">mega hat</option>
                 <option value="orange beanie.png">orange beanie</option>
                 <option value="rainbow.png">rainbow</option>
                 <option value="red bucket hat.png">red bucket hat</option>
